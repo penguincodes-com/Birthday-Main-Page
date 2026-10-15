@@ -1,0 +1,249 @@
+/* --- Variables & Reset --- */
+:root {
+    --hibiscus-pink: #ff4d6d;
+    --baby-pink: #ffb3c1;
+    --soft-blush: #ffccd5;
+    --pearlescent-white: rgba(255, 255, 255, 0.8);
+    --pale-rose: #ffe5ec;
+    --lavender-highlight: #e2d1f9;
+    --champagne: #fcf6e5;
+    --glass-bg: rgba(255, 255, 255, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --text-color: #7a3e4e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--hibiscus-pink), var(--baby-pink));
+    color: var(--text-color);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* --- Background Animations --- */
+.bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+#particle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: floatOrb 20s infinite alternate ease-in-out;
+    will-change: transform;
+}
+
+.orb-1 { width: 400px; height: 400px; background: var(--lavender-highlight); top: -10%; left: -10%; }
+.orb-2 { width: 500px; height: 500px; background: var(--champagne); bottom: -10%; right: -10%; animation-delay: -5s; }
+.orb-3 { width: 300px; height: 300px; background: white; top: 40%; left: 30%; animation-delay: -10s; }
+
+@keyframes floatOrb {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(100px, 50px); }
+}
+
+.particle {
+    position: absolute;
+    top: 0;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: drift linear infinite both;
+}
+
+@keyframes drift {
+    from { transform: translateY(105vh) scale(1); }
+    to { transform: translateY(-10vh) scale(0.5); }
+}
+
+/* --- Glassmorphism Core --- */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), 
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
+    padding: 3rem;
+    text-align: center;
+    max-width: 800px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* --- Hero Section --- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0 5rem;
+    position: relative;
+}
+
+.intro-text {
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeIn 1s forwards 0.5s;
+}
+
+.main-heading {
+    font-family: 'Dancing Script', cursive;
+    font-size: 4.5rem;
+    background: linear-gradient(to bottom, #ffffff, var(--pale-rose));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 1s forwards 1s;
+}
+
+.supporting-text {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeIn 1s forwards 1.5s;
+}
+
+/* --- Magic Button --- */
+.button-wrapper {
+    position: relative;
+    display: inline-block;
+    padding: 15px; /* Creates travel buffer for magnetic tracking */
+    opacity: 0;
+    animation: fadeIn 1s forwards 2s;
+}
+
+.glass-button {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 15px 40px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* Only transition colors/shadows by default; transform transitions are handled via JS */
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    position: relative;
+    user-select: none;
+}
+
+.glass-button:hover {
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 20px var(--pearlescent-white);
+}
+
+/* --- Message Section --- */
+.message-section {
+    padding: 5rem 0;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.message-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.message-heading {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.divider {
+    width: 60px;
+    height: 3px;
+    background: var(--hibiscus-pink);
+    margin: 0 auto 2rem;
+    border-radius: 2px;
+    box-shadow: 0 0 8px var(--hibiscus-pink);
+}
+
+.personal-message {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    white-space: pre-line;
+}
+
+.glass-badge {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    border: 1px solid var(--glass-border);
+    white-space: nowrap;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .main-heading { font-size: 3rem; }
+    .glass-card { padding: 2rem 1.5rem; }
+    .supporting-text { font-size: 1rem; }
+}
+
+/* --- Accessible Reduced Motion Fix --- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+    .intro-text,
+    .main-heading,
+    .supporting-text,
+    .button-wrapper,
+    .message-section {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
